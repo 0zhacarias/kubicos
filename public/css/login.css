@@ -1,0 +1,12 @@
+.alinnharcentro {
+    display: flex; 
+     align-items: center;
+    justify-content: center;
+    height: 95vh;
+    /* Define a altura total da janela para centralizar verticalmente */
+}
+.linkstilo {
+    text-decoration: none !important;
+    color: #4527A0;
+
+}
