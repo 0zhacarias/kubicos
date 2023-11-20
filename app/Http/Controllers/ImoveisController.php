@@ -67,7 +67,8 @@ class ImoveisController extends Controller
         $dados['municipios'] = Municipios::all();
         $dados['tipologiaImoveis'] = Tipologia::all();
         $dados['tipoImoveis'] = TipoImoveis::all();
-        return Inertia::render('Portal/ImoveisCriar', $dados);
+     
+        
         // return Inertia::render('Portal/Carousel');
         // return view();
     }
@@ -582,6 +583,9 @@ class ImoveisController extends Controller
             ->where('estado_imoveis_id', '!=', 3)
             ->where('estado_imoveis_id', '!=', 8)
             ->orderBy('created_at', 'asc')->paginate(8);
+            $dados['id_imoveis_solicitados']=SolicitarImoveis::distinct ()
+            ->get();
+          //  dd($dados['id_imoveis_solicitados']);
         return response()->json($dados);
     }
     public function paginacao_imoveis_proximo(Request $request)

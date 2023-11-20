@@ -21,6 +21,8 @@ class EmailSenha extends Mailable
      */
     public function __construct($nome, $senha,$url)
     {
+
+        
         $this->nome = $nome;
         $this->senha = $senha;
         $this->url = $url;
@@ -33,6 +35,9 @@ class EmailSenha extends Mailable
      */
     public function build()
     {
-        return $this->view('Email.senha');
+        return $this->markdown('Email.senha', [
+            'url' => $this->url,
+        ]);
+        //return $this->view('Email.senha');
     }
 }

@@ -249,10 +249,9 @@
                                                     </v-list-item-title>
 
                                                     <v-list-item-title class="font-weight-bold text-h6">
-                                                        <span class="">Total KZ: {{
-                                                            item.preco
-
-                                                        }}</span>
+                                                        <span class="">Total KZ:
+                                                     {{ formatValor(item.preco) }}    
+                                                    </span>
                                                     </v-list-item-title>
 
                                                     <v-chip-group v-model="selection"
@@ -429,6 +428,14 @@ export default {
         ],
         // loading: null,
         imoveis: {},
+        formatValor: function (atual) {
+            const valorFormatado = Intl.NumberFormat("pt-br", {
+                style: "currency",
+                currency: "AOA",
+            }).format(atual);
+            const valorNumerico = valorFormatado.replace(/AOA/g, '').trim();
+            return valorNumerico;
+        },
         erros: [],
         transparent: 'rgba(255, 255, 255, 0)',
     }),

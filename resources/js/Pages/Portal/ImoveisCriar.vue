@@ -185,7 +185,7 @@
                                                         <v-row>
                                                             <v-col cols="12" sm="12" md="5">
                                                                 <span class="text-body-1 text-black indigo--text">Número
-                                                                    de garagens</span><br />
+                                                                    de sala de estar</span><br />
                                                                 <span class="text-caption">Vagas para
                                                                     Carros(Opcional)</span>
                                                             </v-col>
@@ -288,8 +288,7 @@
                                                         <v-divider></v-divider>
                                                         <v-row>
                                                             <v-col cols="12" sm="12" md="5">
-                                                                <span class="text-body-1 text-black indigo--text">Número
-                                                                    de garagens</span><br />
+                                                                <span class="text-body-1 text-black indigo--text">Número de garagens</span><br />
                                                                 <span class="text-caption">Vagas para
                                                                     Carros(Opcional)</span>
                                                             </v-col>
@@ -738,7 +737,7 @@
                                                         <template>
                                                             <v-file-input accept="image/*" label="Foto principal" chips
                                                                 counter show-size v-model="imovel.foto_principal"
-                                                                :rules="CampoRules"></v-file-input>
+                                                                :rules="letrasRules"></v-file-input>
                                                         </template>
                                                     </v-col>
                                                     <v-col cols="12" md="6">
@@ -747,7 +746,7 @@
                                                                 label="Fotos do Imóvel 10 fotos no máximo." chips close
                                                                 counter multiple show-size truncate-length="15"
                                                                 v-model="imovel.mutiplaImagem"
-                                                                :rules="CampoRules"></v-file-input>
+                                                                :rules="letrasRules"></v-file-input>
                                                         </template>
                                                     </v-col>
 
@@ -1056,9 +1055,9 @@ export default {
         },
 
         letrasRules: [(value) => !!value || "Campos obrigatório."],
+        emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido"],
         CampoRules: [(value) => !!value || "Campos obrigatório.",
         (value)=>value >-1 || "O campo não deve conter numeros negativos"],
-        emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido"],
         telefoneRules: [
             (v) => !!v || "Campo telefone obrigatório.",
             (v) => (v && v.length == 9) || "Tem que ter 9 caracteres",

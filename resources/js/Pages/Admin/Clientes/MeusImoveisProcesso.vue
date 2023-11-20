@@ -43,7 +43,7 @@
                             <v-card-text class="mb-0 pb-0 indigo--text"> Código: {{ item.codigo_imovel }}</v-card-text>
                             <v-card-text class="my-0 py-0 "> Valor a pagar:
                                 <v-card-title class="mt-0 py-0 indigo--text">
-                                    {{ formatValor(item.preco) }},00 KZ
+                                    {{ formatValor(item.preco) }} KZ
                                 </v-card-title>
                             </v-card-text>
                             <v-card-text class="my-0 py-0"> Designação:

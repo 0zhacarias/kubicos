@@ -31,7 +31,7 @@
                     </v-card-actions>
                 </v-col>
                 <!-- :lg="pessoas.length > 3 ? 3 : 4" -->
-                <v-col v-for="item in pessoas" :key="item.id" cols="12" sm="6" md="2" lg="4">
+                <v-col v-for="item in pessoas" :key="item.id" cols="12" sm="6" md="3" lg="4">
                     <v-hover v-slot="{ hover }">
 
                         <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"  
@@ -83,17 +83,17 @@
                                             <v-row dense>
                                                 <v-col cols="12" sm="12" md="12">
                                                     <v-text-field v-model="pessoa.name" outlined dense
-                                                        label="Nome Completo do pessoa" type="text">
-                                                    </v-text-field>
+                                                        label="Nome Completo do pessoa" type="text" :rules="letrasRules" required>
+                                                    </v-text-field >
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="6">
                                                     <v-text-field v-model="pessoa.email" outlined dense label="E-mail"
-                                                        type="email">
+                                                        type="email" :rules="emailRules" required>
                                                     </v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="6">
                                                     <v-text-field v-model="pessoa.telefone" outlined dense
-                                                        label="Contacto*" type="number" min="0" max="9">
+                                                        label="Contacto*" type="number" min="0" max="9" :rules="letrasRules" required>
 
                                                     </v-text-field>
                                                 </v-col>
@@ -157,6 +157,8 @@ export default {
         },
         snackbar: false,
         textvalidado: `Operação feita com sucesso`,
+        letrasRules: [(value) => !!value || "Campos obrigatório."],
+        emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido"],
     }),
     mounted() {
         this.loading = true;
@@ -247,8 +249,8 @@ export default {
 
                         //   console.log('Falha ao registar os dados na base de dados!...')
                     });
-                this.fecharDialog();
                 location.reload();
+                this.fecharDialog();
             } else {
                 this.$inertia.post(
                     "/pessoa",

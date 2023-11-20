@@ -4,67 +4,66 @@
         <template class="pb-0 ">
 
             <v-toolbar-title class="deep-purple darken-3 elevation-0 imagens">
-                 <!-- :style="'border-radius: 0px 0px 0px 350px; height:70vh'" -->
-                            <v-img  gradient="to top right, rgba(255,115,201,.1), rgba(25,32,72,.6)"
-                                :style="'white-space:nowrap; padding:0;max-width: 100%;height:75vh; position:relative;top:10px; ; border-radius: 0 80px 0px 60px;'"
-                                src="/img/angola.jpg" >
-                <!-- <v-card-title>
+                <!-- :style="'border-radius: 0px 0px 0px 350px; height:70vh'" -->
+                <v-img gradient="to top right, rgba(255,115,201,.1), rgba(25,32,72,.6)"
+                    :style="'white-space:nowrap; padding:0;max-width: 100%;height:75vh; position:relative;top:10px; ; border-radius: 0 80px 0px 60px;'"
+                    src="/img/angola.jpg">
+                    <!-- <v-card-title>
                  <span class="headline">Título do Card</span> 
                 </v-card-title> -->
-                <v-row class="p-0">
-                    <v-col cols="12" sm="2" md="4" :style="' white-space:nowrap; padding:0; '">                       
-                    </v-col>
-                    <v-col cols="12" sm="10" md="8" class="container--fluid">
-                        <v-card elevation="0" color="transparent" class="white--text textotela pt-15">
-                            <h1>
-                                <p class="text-bold text-justify">No Kubico tem.</p>
-                            </h1>
-                            <h2> O imóvel que deseja e o que procuras está aqui</h2>
-                            <p class="text-h4 pt-3 text-justify">compra, arrenda ou vende o seu imóvel residencial.</p>
-                            <v-row  class="px-5 tamanhotela">
-                                <v-col cols="8" sm="0">
-                                    <template>
-                                    <v-tabs v-model="filtrar.servico" centered class="text-h2 py-lg-10" show-arrows background-color="transparent"
-                                        dark icons-and-text center-active>
-                                        <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 " >Comprar</v-tab>
-                                        <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 ">Arrendar</v-tab>
-                                        <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 " >Meio periódo</v-tab>
-                                    </v-tabs>
-                                </template>
-                                </v-col>
-                              <v-row>
-                                <v-col cols="4" md="4"  sm="0" class="opens-sans" >
-                                    <v-autocomplete color="indigo" outlined rounded auto-select-first chips clearable deletable-chips
-                                        small-chips item-text="designacao" item-value="id" prepend-icon=""  v-model="filtrar.provincia_id"
-                                        :items="provincias"
-                                       
-                                        hide-details
-                                        label="Localização" class="indigo lighten-5">
-                                    </v-autocomplete>
-                                </v-col>
-                                <v-col cols="4" md="4" class="opens-sans mb-n8">
-                                    <v-autocomplete outlined rounded auto-select-first chips clearable deletable-chips v-model="filtrar.tipo_imovel"
-                                        small-chips item-text="designacao" item-value="id" :items="tipo_imoveis"
-                                        prepend-icon="" label="Estado" full-width hide-details class="indigo lighten-5">
-                                    </v-autocomplete>
-                                </v-col>
-                                <v-col cols="2" md="2">
-                                    <v-btn rounded x-large  class="bottom-gradient"  @click="FiltrarImoveis()">
-                                        pesquisar
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                            </v-row>
+                    <v-row class="p-0">
+                        <v-col cols="12" sm="2" md="4" :style="' white-space:nowrap; padding:0; '">
+                        </v-col>
+                        <v-col cols="12" sm="10" md="8" class="container--fluid">
+                            <v-card elevation="0" color="transparent" class="white--text textotela pt-15">
+                                <h1>
+                                    <p class="text-bold text-justify">No Kubico tem.</p>
+                                </h1>
+                                <h2> O imóvel que deseja e o que procuras está aqui</h2>
+                                <p class="text-h4 pt-3 text-justify">compra, arrenda ou vende o seu imóvel residencial.</p>
+                                <v-row class="px-5 tamanhotela">
+                                    <v-col cols="8" sm="0">
+                                        <template>
+                                            <v-tabs v-model="filtrar.servico" centered class="text-h2 py-lg-10" show-arrows
+                                                background-color="transparent" dark icons-and-text center-active>
+                                                <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 ">Comprar</v-tab>
+                                                <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 ">Arrendar</v-tab>
+                                                <v-tab class="text-h6 px-lg-6 px-md-2 px-sm-1 ">Meio periódo</v-tab>
+                                            </v-tabs>
+                                        </template>
+                                    </v-col>
+                                    <v-row>
+                                        <v-col cols="4" md="4" sm="0" class="opens-sans">
+                                            <v-autocomplete color="indigo" outlined rounded auto-select-first chips
+                                                clearable deletable-chips small-chips item-text="designacao" item-value="id"
+                                                prepend-icon="" v-model="filtrar.provincia_id" :items="provincias"
+                                                hide-details label="Localização" class="indigo lighten-5">
+                                            </v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="4" md="4" class="opens-sans mb-n8">
+                                            <v-autocomplete outlined rounded auto-select-first chips clearable
+                                                deletable-chips v-model="filtrar.tipo_imovel" small-chips
+                                                item-text="designacao" item-value="id" :items="tipo_imoveis" prepend-icon=""
+                                                label="Estado" full-width hide-details class="indigo lighten-5">
+                                            </v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="2" md="2">
+                                            <v-btn rounded x-large class="bottom-gradient" @click="FiltrarImoveis()">
+                                                pesquisar
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-row>
 
-                        </v-card>
-
+                            </v-card>
 
 
 
-                    </v-col>
 
-                </v-row>
-            </v-img>
+                        </v-col>
+
+                    </v-row>
+                </v-img>
             </v-toolbar-title>
         </template>
         <!-- Lançamentos mais recentes -->
@@ -83,18 +82,18 @@
                                 :elevation="hover ? 10 : 0">
                                 <v-img height="150" :src="'/storage/' + item.foto_principal"></v-img>
 
-                       <!--          <v-card-title>{{ item.title }}</v-card-title>
+                                <!--          <v-card-title>{{ item.title }}</v-card-title>
                                 <v-card-subtitle class="text--subtitle">Código:{{ item.codigo_imovel }}</v-card-subtitle>
                                 <v-card-subtitle class="text--subtitle">{{ item.designacao }}</v-card-subtitle>
  --><v-card-text class="mb-0 pb-0 indigo--text"> Código: {{ item.codigo_imovel }}</v-card-text>
- <v-card-text class="my-0 py-0 "> Valor a pagar:
-                                <v-card-title class="mt-0 py-0 indigo--text">
-                                    {{ formatValor(item.preco) }} KZ
-                                </v-card-title>
-                            </v-card-text>
-                            <v-card-text class="my-0 py-0"> Designação:
-                                <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
-                            </v-card-text>
+                                <v-card-text class="my-0 py-0 "> Valor a pagar:
+                                    <v-card-title class="mt-0 py-0 indigo--text">
+                                        {{ formatValor(item.preco) }} KZ
+                                    </v-card-title>
+                                </v-card-text>
+                                <v-card-text class="my-0 py-0"> Designação:
+                                    <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
+                                </v-card-text>
                                 <v-card-text>
                                     <v-row align="center" class="mx-0">
                                         <v-rating :value="4.5" color="amber" dense half-increments readonly
@@ -129,7 +128,7 @@
 
                                             <span class="mdi mdi-timer-lock-outline" title="Arrendamento"></span>{{
                                                 actidade.tempo_arrendar }} </v-chip>
-                                  <!--       <v-chip :color="getcor(item.estado_imoveis_id)" title="estado do imovel" class="white--text">
+                                        <!--       <v-chip :color="getcor(item.estado_imoveis_id)" title="estado do imovel" class="white--text">
                                             <span v-if="item.estado_imoveis_id == 1" class="mdi mdi-archive-lock-open "></span>
                                             <span v-if="item.estado_imoveis_id == 2" class="mdi mdi-archive-remove"></span>
                                             <span v-if="item.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span>
@@ -137,7 +136,7 @@
                                             <span v-if="item.estado_imoveis_id == 5" class="mdi mdi-archive-refresh"></span>
 
                                             {{ item.estado_imoveis.designacao }} </v-chip> -->
-    <!--                                         <span v-if="item.solicitacao_imoveis.length > 0">
+                                        <!--                                         <span v-if="item.solicitacao_imoveis.length > 0">
     <span v-for="(solicitacao) in item.solicitacao_imoveis" :key="solicitacao.id" 
                                             >
                                             <v-chip outlined
@@ -174,43 +173,71 @@
 
                                         {{ item.estado_imoveis.designacao }}
                                     </v-chip> -->
-                                    <span v-if="item.solicitacao_imoveis.length > 0">
-    <span v-for="(solicitacao) in item.solicitacao_imoveis" :key="solicitacao.id" 
-                                            >
-                                            <span v-if="user">
-                                            <span v-if="solicitacao.user_marca_visita ==user.id && solicitacao.imoveis_id==item.id">
-                                            <v-chip  outlined
-                                            title="estado do imóvel" class="white--text" :color="getcor(solicitacao.estado_imoveis_id)" v-if="user.id == solicitacao.user_marca_visita">
-                                                <span v-if="solicitacao.estado_imoveis_id == 8"
-                                                    class="mdi mdi-archive-remove">Em negociacao</span>
-                                                <!-- <span v-if="solicitacao.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span> -->
-                                                <span v-if="solicitacao.estado_imoveis_id == 4"
-                                                    class="mdi mdi-archive-eye">Visita pendentes</span>
-                                                <span v-if="solicitacao.estado_imoveis_id == 5"
-                                                    class="mdi mdi-archive-refresh">{{ 'Visita confirmada' }}</span>
+                                        <span v-if="user">
+                                            <span v-if="item.solicitacao_imoveis.length > 0">
+                                           <!--      <span v-for="(solicitacao) in item.solicitacao_imoveis"
+                                                    :key="solicitacao.id">
+                                                    <span
+                                                    
+                                                        v-if="solicitacao.user_marca_visita == user.id && solicitacao.imoveis_id == item.id">
+                                                        <v-chip outlined title="estado do imóvel" class="white--text"
+                                                            :color="getcor(solicitacao.estado_imoveis_id)"
+                                                            v-if="user.id == solicitacao.user_marca_visita">
+                                                            <span v-if="solicitacao.estado_imoveis_id == 8"
+                                                                class="mdi mdi-archive-remove">Em negociacao</span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 4"
+                                                                class="mdi mdi-archive-eye">Visita pendentes</span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 5"
+                                                                class="mdi mdi-archive-refresh">{{ 'Visita confirmada'
+                                                                }}</span>
 
-                                            </v-chip>
-                                             </span>
-                                             <v-chip v-else-if="!solicitacao.user_marca_visita ==user.id && !solicitacao.imoveis_id==item.id"  outlined
-                                            title="estado do imóvel" class="white--text" :color="getcor(item.estado_imoveis_id)">
-                                               
-                                        <span v-if="item.estado_imoveis_id == 1" class="mdi mdi-archive-lock-open "></span>
-                                        <span v-if="item.estado_imoveis_id == 2" class="mdi mdi-archive-remove"></span>
-                                        <span v-if="item.estado_imoveis_id == 5" class="mdi mdi-archive-refresh"></span>
-
-                                        {{ item.estado_imoveis.designacao }}
-                                            </v-chip>
-                                           </span>
+                                                        </v-chip>
+                                                    </span>
+                                                </span> -->
+                                                <span v-for="(solicitar_id) in id_imoveis_solicitados" :key="solicitar_id.id">
+                                                   
+                                                    <v-chip  
+                                                    v-if="solicitar_id.imoveis_id == item.id && solicitar_id.user_marca_visita == user.id "
+                                                        :color="getcor(solicitar_id.estado_imoveis_id)" outlined title="estado do imóvel" class="white--text">
+                                                        <span v-if="solicitar_id.estado_imoveis_id == 8"
+                                                                class="mdi mdi-archive-remove">Em negociacao</span>
+                                                            <!-- <span v-if="solicitacao.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span> -->
+                                                            <span v-if="solicitar_id.estado_imoveis_id == 4"
+                                                                class="mdi mdi-archive-eye">Visita pendentes</span>
+                                                            <span v-if="solicitar_id.estado_imoveis_id == 5"
+                                                                class="mdi mdi-archive-refresh">{{ 'Visita confirmada'
+                                                                }}</span>
+                                                    </v-chip>
+                                                    <span v-else-if="solicitar_id.imoveis_id == item.id && solicitar_id.user_marca_visita !== user.id">
+                                                <v-chip title="estado do imóvel" class="white--text"
+                                                    :color="getcor(item.estado_imoveis_id)">
+                                                    <span v-if="item.estado_imoveis_id == 1"
+                                                        class="mdi mdi-archive-eye"></span>
+                                                    {{ item.estado_imoveis.designacao }}
+                                                </v-chip>
+                                            </span>
+                                                </span>
+                                             
+                                            </span>
+                                            <span v-else>
+                                                <v-chip title="estado do imóvel" class="white--text"
+                                                    :color="getcor(item.estado_imoveis_id)">
+                                                    <span v-if="item.estado_imoveis_id == 1"
+                                                        class="mdi mdi-archive-eye"></span>
+                                                    {{ item.estado_imoveis.designacao }}
+                                                </v-chip>
+                                            </span>
                                         </span>
-                    </span>
-                        <v-chip v-else title="estado do imóvel" class="white--text"
-                                        :color="getcor(item.estado_imoveis_id)">
-                                        <span v-if="item.estado_imoveis_id == 1" class="mdi mdi-archive-lock-open "></span>
-                                        <span v-if="item.estado_imoveis_id == 2" class="mdi mdi-archive-remove"></span>
-                                        <span v-if="item.estado_imoveis_id == 5" class="mdi mdi-archive-refresh"></span>
+                                        <v-chip v-else title="estado do imóvel" class="white--text"
+                                            :color="getcor(item.estado_imoveis_id)">
+                                            <span v-if="item.estado_imoveis_id == 1"
+                                                class="mdi mdi-archive-lock-open "></span>
+                                            <span v-if="item.estado_imoveis_id == 6" class="mdi mdi-archive-remove"></span>
+                                            <span v-if="item.estado_imoveis_id == 5" class="mdi mdi-archive-refresh"></span>
 
-                                        {{ item.estado_imoveis.designacao }}
-                                    </v-chip>
+                                            {{ item.estado_imoveis.designacao }}
+                                        </v-chip>
                                     </v-chip-group>
                                 </v-card-text>
                             </v-card>
@@ -246,14 +273,14 @@
                                 @click.stop="findImoveis(item.id)" :elevation="hover ? 10 : 0">
                                 <v-img height="150" :src="'/storage/' + item.foto_principal"></v-img>
                                 <v-card-text class="mb-0 pb-0 indigo--text"> Código: {{ item.codigo_imovel }}</v-card-text>
- <v-card-text class="my-0 py-0 "> Valor a pagar:
-                                <v-card-title class="mt-0 py-0 indigo--text">
-                                    {{ formatValor(item.preco) }},00 KZ
-                                </v-card-title>
-                            </v-card-text>
-                            <v-card-text class="my-0 py-0"> Designação:
-                                <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
-                            </v-card-text>
+                                <v-card-text class="my-0 py-0 "> Valor a pagar:
+                                    <v-card-title class="mt-0 py-0 indigo--text">
+                                        {{ formatValor(item.preco) }}KZ
+                                    </v-card-title>
+                                </v-card-text>
+                                <v-card-text class="my-0 py-0"> Designação:
+                                    <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
+                                </v-card-text>
                                 <v-card-text>
                                     <v-row align="center" class="mx-0">
                                         <v-rating :value="4.5" color="amber" dense half-increments readonly
@@ -288,7 +315,8 @@
 
                                             <span class="mdi mdi-timer-lock-outline" title="Arrendamento"></span>{{
                                                 actidade.tempo_arrendar }} </v-chip>
-                                        <v-chip :color="getcor(item.estado_imoveis_id)" title="estado do imovel" class="white--text">
+                                        <v-chip :color="getcor(item.estado_imoveis_id)" title="estado do imovel"
+                                            class="white--text">
                                             <span v-if="item.estado_imoveis_id == 1"
                                                 class="mdi mdi-archive-lock-open "></span>
                                             <span v-if="item.estado_imoveis_id == 2" class="mdi mdi-archive-remove"></span>
@@ -329,7 +357,7 @@
                 <v-card-title class="Centralizar-linha ">Parcerias com as Imóbiliarias </v-card-title>
             </v-toolbar-title>
             <v-container>
-                <v-row no-gutters  :style="'justify-content: center;'">
+                <v-row no-gutters :style="'justify-content: center;'">
                     <v-col v-for="item in imobiliarias" :key="item.id" cols="12" sm="12" md="" class="mx-1"
                         :lg="mais_proximos.length <= 3 ? 4 : 3" :style="'max-width: min-content;'">
                         <v-hover v-slot="{ hover }">
@@ -337,10 +365,10 @@
                             <v-card :loading="loading" class="mx-5 my-12 elevation-10" max-width="320"
                                 :elevation="hover ? 5 : 2">
                                 <v-img height="100" src="/img/Aaa.png"></v-img>
-                            <v-card-text class="my-0 py-0"> Nome da Imobiliaria:
-                                <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
-                                <v-card-text class="my-0 py-0 indigo--text">NIF: {{ item.nif }}</v-card-text>
-                            </v-card-text>
+                                <v-card-text class="my-0 py-0"> Nome da Imobiliaria:
+                                    <v-card-text class="my-0 py-0 indigo--text" v-text="item.designacao"></v-card-text>
+                                    <v-card-text class="my-0 py-0 indigo--text">NIF: {{ item.nif }}</v-card-text>
+                                </v-card-text>
                                 <v-card-text>
                                     <v-row align="center" class="mx-0">
                                         <v-rating :value="4.5" color="amber" dense half-increments readonly
@@ -353,7 +381,7 @@
                             </v-card>
                         </v-hover>
                     </v-col>
-    <!--                 <v-row class="mb-10" justify="end">
+                    <!--                 <v-row class="mb-10" justify="end">
                         <v-col cols="7">
 
                         </v-col>
@@ -368,7 +396,7 @@
             </v-container>
             <v-container>
                 <v-row no-gutters justify="pa-0" :style="'justify-content: center;'">
-               
+
                     <v-row :style="'justify-content: center;'">
                         <h2 class="mx-1 text-center">Municipios</h2>
                         <v-col @click.stop="findImoveisProvincia(item.id)" v-for="item in provincias" :key="item.id"
@@ -392,7 +420,7 @@
                 </div>
             </template>
         </template>
- </PortalLayout>
+    </PortalLayout>
 </template>
 
 <script>
@@ -412,12 +440,13 @@ export default {
         last_page_proximo: 1,
         total_imoveis_proximos: 1,
         provincias: [],
+        id_imoveis_solicitados: [],
         tipo_imoveis: [],
         imobiliarias: [],
         total_tmoveis: 0,
         novos_imoveis: [],
         mais_proximos: [],
-        filtrar:{},
+        filtrar: {},
         valid: true,
         name: "",
         overlay: false,
@@ -497,22 +526,22 @@ export default {
         },
         findImoveis(id) {
             this.overlay = true
-            setTimeout(() => {  
+            setTimeout(() => {
                 this.overlay = false
                 window.location.href = "/portal/imovel-selecionado/" + btoa(btoa(btoa(id)));
             }, 2000)
         },
         findImoveisProvincia(id) {
             this.overlay = true
-            setTimeout(() => {  
+            setTimeout(() => {
                 this.overlay = false
                 window.location.href = "/portal/imoveis-provincia/" + id;
             }, 2000)
-  
+
         },
         FiltrarImoveis() {
             this.overlay = true
-            setTimeout(() => {  
+            setTimeout(() => {
                 this.overlay = false
                 this.$inertia.get("/portal/filtrar-imoveis-portal", this.filtrar, {});
                 // window.location.href = "/portal/filtra-imoveis-portal/" + this.filtrar;
@@ -536,6 +565,7 @@ export default {
                     this.novos_imoveis = response.data.novos_imoveis.data;
                     this.last_page = response.data.novos_imoveis.last_page;
                     this.total_imoveis = response.data.novos_imoveis.total;
+                    this.id_imoveis_solicitados = response.data.id_imoveis_solicitados;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -627,48 +657,58 @@ table {
     /* background-image:linear-gradient(to bottom right, #0077c2, #0093ff) */
 }
 
-@media(max-width: 768px){
-    .textotela>h1{
+@media(max-width: 768px) {
+    .textotela>h1 {
         color: #6943af;
         padding: 5%;
         font-size: 3.5rem;
     }
-    .textotela>h2{
+
+    .textotela>h2 {
         padding-left: 5%;
         font-size: 1srem;
     }
-    .textotela>p{
+
+    .textotela>p {
         padding-left: 5%;
         font-size: 1px !important;
     }
-    .tamanhotela{
+
+    .tamanhotela {
         display: none;
- 
-    }
-    
-   .imagens{
-   border-radius: 0px 0px 0px 20px; 
-   height:70vh;
-    /* border-radius: 0px 0px 0px 100px; */
-        /* display: none; */
-    }
-   };
-@media(min-width: 769px) and (max-width: 1024px){
 
-   .imagens{
-   border-radius: 0px 0px 0px 350px; 
-   height:70vh;
-    /* border-radius: 0px 0px 0px 100px; */
-        /* display: none; */
     }
-   };
-@media(min-width: 1025px){
 
-   .imagens{
-   border-radius: 0px 0px 0px 350px; 
-   height:70vh;
-    /* border-radius: 0px 0px 0px 100px; */
+    .imagens {
+        border-radius: 0px 0px 0px 20px;
+        height: 70vh;
+        /* border-radius: 0px 0px 0px 100px; */
         /* display: none; */
     }
-   };
-</style>
+}
+
+;
+
+@media(min-width: 769px) and (max-width: 1024px) {
+
+    .imagens {
+        border-radius: 0px 0px 0px 350px;
+        height: 70vh;
+        /* border-radius: 0px 0px 0px 100px; */
+        /* display: none; */
+    }
+}
+
+;
+
+@media(min-width: 1025px) {
+
+    .imagens {
+        border-radius: 0px 0px 0px 350px;
+        height: 70vh;
+        /* border-radius: 0px 0px 0px 100px; */
+        /* display: none; */
+    }
+}
+
+;</style>

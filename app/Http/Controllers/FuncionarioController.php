@@ -8,6 +8,7 @@ use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -44,46 +45,68 @@ class FuncionarioController extends Controller
      */
     public function store(Request $request)
     {
-        
+      
 
+     //   DB::beginTransaction();
         try {
-            DB::beginTransaction();
+            
+           
             $user = User::create(
                 [
                     'name' => $request->get('name'),
                     'email' => $request->get('email'),
                     'telefone' => $request->get('telefone'),
-                    'password' => 'KBC-'. User::count().date('m-d'),
+                    'password' => Hash::make($request->get('telefone')),
+                    //'password' => 'KBC-'. User::count().date('m-d'),
                     'tipo_user_id' => 1,
                 ]
             );
-            $user->assignRole('Funcionario');
-            Pessoa::create([
+            $senha=$request->get('telefone');
+           // $senha='KBC-'. User::count().date('m-d');
+           // $user->assignRole('Administrador');
+           $user->assignRole('Funcionario');
+            $pessoas=Pessoa::create([
                 'nome'=>$request->get('name'),
                 'sobre_nome'=>$request->get('name'),
                 'telefone'=>$request->get('telefone'),
                 'email' => $request->get('email'),
                 'user_id'=>$user->id,
             ]);
-            $this->emailSenha($user);
-            DB::commit();
+            $nome = $user->name;
+        
+        $email=$user->email;
+            $url = action([ImoveisController::class, 'portal_imovel']);
+        // dd($solicitavisita);
+        //Mail::to('zhacarias50@outlook.com')
+        Mail::to($email)
+        ->send(new EmailSenha(
+            $nome,
+            $senha,
+            $url,
+        ));
+            //return $this->emailSenha($user);
+        //    DB::commit();
             return redirect()->back()->with('success','Funcionario cadastrado com sucesso');
         } catch (\Throwable $th) {
-            DB::rollBack();
+         //   DB::rollBack();
+         
            return redirect()->back()->with('error','Não foi possivel cadastrar o funcionario');
         }
 
     }
     public function emailSenha($usuario)
     {
-
-        $nome = $usuario->nome;
+        $nome = $usuario->name;
         $senha = $usuario->password;
+        $email=$usuario->email;
+        dd($nome,$senha,$email);
         // Imovel
         //Informação da visita
         $url = action([ImoveisController::class, 'portal_imovel']);
         // dd($solicitavisita);
-        Mail::to('zhacarias50@outlook.com')->send(new EmailSenha(
+        //Mail::to('zhacarias50@outlook.com')
+        Mail::to($email)
+        ->send(new EmailSenha(
             $nome,
             $senha,
             $url,
