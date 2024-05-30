@@ -182,7 +182,7 @@
                         </validation-provider>
                     </v-col>
                     <v-list>
-                        <!-- 
+                        <!--
                         <v-list-item>
                             <v-list-item-action>
                                 <v-switch v-model="message" color="purple"></v-switch>
@@ -466,17 +466,18 @@ export default {
         anuncios() {
             if (this.$page.props.auth.user !== null) {
                 if (this.user.pessoa.provincia_id) {
+
                     this.$inertia.get('/portal/imoveis').then((response) => {
                     // window.location.reload();
                 }).catch((error) => {
                     console.log(error);
                     // Tratamento de erro, se necessário
                 });
-                }else{ 
+                }else{
                     this.dialogVerificarInformacoes = true
                 }
 
- 
+
             } else {
                 this.dialogLogin = true;
             }

@@ -32,7 +32,7 @@
                                                 Vender</v-btn>
                                             <v-btn outlined value="2" v-model="imovel.arrendamento_id"
                                                 class="corArrendamento" @click="arrendarImoveis()">Arrendar</v-btn>
-                                            <!-- 
+                                            <!--
                                             <v-btn outlined value="1" v-model="imovel.proprietario_id"
                                                 @click="proprietario()" class="corProprietario"
                                                 v-if="this.getarrendar == true || this.getvender == true">
@@ -56,7 +56,7 @@
                                                         que seu anúncio
                                                         apareça corretamente nas buscas dos interessados.
                                                     </span>
-                                                    <v-col cols="12":sm="tipologiaImoveis.length >0?6:12" :md="tipologiaImoveis.length >0?6:12">
+                                                    <v-col cols="12" :sm="tipologiaImoveis.length >0?6:12" :md="tipologiaImoveis.length >0?6:12">
                                                         <v-autocomplete outlined dense :rules="letrasRules"
                                                             label="Tipo de Imovel*" v-model="imovel.categoria_imoveis_id
                                                                 " :items="tipoImoveis" item-text="designacao"
@@ -361,7 +361,7 @@
                                                 <v-row class="py-1">
                                                     <v-col cols="12" :md="this.getvender == true ? 6 : 4"
                                                         :lg="this.getvender == true ? 6 : 6">
-                                                        <v-text-field v-model="imovel.preco" type="number" outlined dense 
+                                                        <v-text-field v-model="imovel.preco" type="number" outlined dense
                                                         :rules="CampoRules"
                                                             :label="this.getvender == true ? 'Valor de venda do Imovel*' : 'Valor a ser Arrendado do Imovel*'"></v-text-field>
                                                     </v-col>
@@ -706,7 +706,7 @@
                                                         </v-list-item>
                                                     </v-list-item-group>
                                                 </v-list>
-                                             
+
                                             </v-container>
                                             <v-card-actions>
                                                     <v-spacer />

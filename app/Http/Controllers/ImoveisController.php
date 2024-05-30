@@ -33,9 +33,9 @@ class ImoveisController extends Controller
 
     public function portal_imovel()
     {
-        // $userLog=auth()->user()->load('tipo_user');
+        //$userLog=auth()->user()->load('tipo_user');
 
-        // dd($userLog->tipo_user->id);
+       /// dd($userLog->tipo_user->id);
         $dados['provincias'] = Provincias::all();
         $dados['municipios'] = Municipios::all();
         $dados['tipologiaImoveis'] = Tipologia::all();
@@ -67,9 +67,9 @@ class ImoveisController extends Controller
         $dados['municipios'] = Municipios::all();
         $dados['tipologiaImoveis'] = Tipologia::all();
         $dados['tipoImoveis'] = TipoImoveis::all();
-     
-        
-        // return Inertia::render('Portal/Carousel');
+
+//dd($dados);
+         return Inertia::render('Portal/ImoveisCriar',$dados);
         // return view();
     }
 
@@ -426,7 +426,7 @@ class ImoveisController extends Controller
             $servico = 4;
         }
         if ($request->provincia_id) {
-           
+
             $dados['provincia_selecionado'] = $request->provincia_id;
             $provincia_id[] = $request->provincia_id;
         } else {
