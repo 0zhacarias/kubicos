@@ -6,32 +6,38 @@
                 <v-col cols="12" md="12" class="pa-0  mt-15 indigo">
                     <v-card-actions>
                         <span class=" white--text text-bold text-h5">
-                            Funcionarios ({{ pessoas.length }})
+                            Clientes ({{ clientes.length }})
                         </span>
 
                         <v-spacer></v-spacer>
                         <v-card-title>
-                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" outlined
-                                dense dark single-line hide-details></v-text-field>
+                            <v-text-field v-model="pessoa.search" append-icon="mdi-magnify" label="Pesquisar" outlined
+                                dense dark single-line hide-details ></v-text-field>
                         </v-card-title>
                         <!-- <v-text-field v-model="imobiliaria.pesquisar" outlined dense label="Contacto*" type="text">
                         </v-text-field> -->
                         <v-btn icon elevation="5" color="indigo" class="white" outlined rounded
-                            title="Pesquisar" @click="carregarDialogimobiliaria(item)">
+                            title="Pesquisar" @click="pesqueisar()">
                             <v-icon>
                                 mdi-magnify
                             </v-icon>
                         </v-btn>
-                        <v-btn icon color="indigo" outlined rounded class="white" title="Cadastrar Funcionario"
+                        <!-- <v-btn icon color="indigo" outlined rounded class="white" title="Cadastrar Funcionario"
                                     @click="carregarDialogpessoa(item)">
                                     <v-icon>
                                         mdi mdi-plus
                                     </v-icon>
-                                </v-btn>
+                                </v-btn> -->
+                                <v-btn icon color="indigo" outlined rounded class="white" title="Emitir Relatório do processo"
+                            @click="emitirRelatoriosProcesso(item)">
+                            <v-icon>
+                                mdi mdi-file-document-multiple
+                            </v-icon>
+                        </v-btn>
                     </v-card-actions>
                 </v-col>
-                <!-- :lg="pessoas.length > 3 ? 3 : 4" -->
-                <v-col v-for="item in pessoas" :key="item.id" cols="12" sm="6" md="3" lg="4">
+                <!-- :lg="clientes.length > 3 ? 3 : 4" -->
+                <v-col v-for="item in clientes" :key="item.id" cols="12" sm="12" md="4" lg="3">
                     <v-hover v-slot="{ hover }">
 
                         <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"  
@@ -45,18 +51,19 @@
                                 </div>
                                 <div > <span class="font-weight-bold">E-mail:</span> {{ item.email }}
                                 </div>
-                                <div > <span class="font-weight-bold">Contacto:</span> {{ item.telefone }}
+                                <div > <span class="font-weight-bold">Contacto:</span> {{ item.telefone }}</div>
+                                <div > <span class="font-weight-bold">Função:</span> {{ item.tipo_user.designacao }}
                                 </div>
                             </v-card-text>
                             <!-- <v-card-title v-text="item.designacao"></v-card-title> -->
 <v-divider class="ma-0 pa-0"></v-divider>
                             <v-card-actions class="justify-end">
-                                <v-btn icon color="deep-purple lighten-2" outlined rounded title="Editar Imóvel"
+                            <!--     <v-btn icon color="deep-purple lighten-2" outlined rounded title="Editar Imóvel"
                                     @click="carregarDialogEditarpessoa(item)">
                                     <v-icon>
                                         mdi mdi-pencil-outline
                                     </v-icon>
-                                </v-btn>
+                                </v-btn> -->
                                 <v-btn icon color="red" outlined rounded title="Remover o Imóvel"
                                     @click="deletepessoa(item)">
                                     <v-icon>
@@ -142,7 +149,7 @@
 import Cliente from "../Clientes/Cliente";
 export default {
 
-    props: ["pessoas",],
+    props: ["clientes",],
     components: {
         Cliente
     },
@@ -150,10 +157,11 @@ export default {
         dialogEditar: false,
         dialogDelete: false,
         editedIndex: -1,
-        search:'',
         pessoa: {
+            search:null
         },
         defautpessoa: {
+            search:null
         },
         snackbar: false,
         textvalidado: `Operação feita com sucesso`,
@@ -190,7 +198,26 @@ export default {
         validate() {
             this.$refs.form.validate();
         },
+        pesqueisar(){
+            axios
+                
+                .post(
+                    "/clientes/pesquisar-clientes", this.pessoa )
+                .then((response) => {
+                      this.clientes = response.data.clientes
+                })
+                .catch(() => {
+                    alert(JSON.stringify(response.data));
 
+                    //   console.log('Falha ao registar os dados na base de dados!...')
+                });
+    /*         location.reload(); */
+        },
+        emitirRelatoriosProcesso() {
+            window.open(
+                "/clientes/emitir-relatorios-clientes"
+            )
+        },
         carregarDialogpessoa() {
             // item.actividade_imoveis.forEach(actividade => {
             //     this.operacao_id = actividade.operacao_imoveis_id
@@ -200,18 +227,19 @@ export default {
 
         },
         carregarDialogEditarpessoa(item) {
-            this.editedIndex = this.pessoas.indexOf(item);
+            this.editedIndex = this.clientes.indexOf(item);
             this.pessoa = Object.assign({}, item);
             this.dialogEditar = true;
         },
         deletepessoa(item) {
-            this.editedIndex = this.pessoas.indexOf(item);
+            this.editedIndex = this.clientes.indexOf(item);
             this.pessoa = Object.assign({}, item);
             this.dialogDelete = true;
         },
         deleteItemConfirm() {
+           
             this.$inertia.delete(
-                "/pessoa/" + this.pessoa.id,
+                "/clientes/cliente/" + this.pessoa.id,
                 {
                     onFinish: () => {
                         if (this.$page.props.flash.success != null) {
@@ -273,18 +301,12 @@ export default {
                                     msg: "" + this.$page.props.flash.error,
                                 });
                             }
-                           // location.reload();
-                           // this.fecharDialog();
-                           
+                            this.fecharDialog();
                         },
-                        
 
                     }
                     
-                    
                 );
-                this.dialogEditar = false;
-                this.snackbar = true
             };
 
         },

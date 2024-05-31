@@ -442,7 +442,7 @@
                     @endif -
                 </tbody>
             </table> --}}
-            <p  class=" texto">
+            <h5  class=" texto">
                 Para efito de um contrato de compromisso, eu {{ $declaracaoPDF->usuario->pessoa->nome }}, 
                 titular do Bilhete de Identidade N.° {{  $declaracaoPDF->usuario->pessoa->numero_identificacao  }}, Comprometo-me  e afirmo que o cliente {{ $declaracaoPDF->designacao  }}
                  foi lhe passado a residencia no processo de {{$declaracaoPDF->actividadeImoveis[0]->operacaoImoveis->designacao}}
@@ -453,7 +453,7 @@
                  no valore de{{ $declaracaoPDF->preco }} de que
                 sou legítimo proprietário e possuidor.
                  
-            </p><br/>
+    </h5><br/>
         </div>
 
             <p>Assinatura do proprietario : ___________________________________</p>

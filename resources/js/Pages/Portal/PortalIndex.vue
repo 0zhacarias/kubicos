@@ -175,7 +175,7 @@
                                     </v-chip> -->
                                         <span v-if="user">
                                             <span v-if="item.solicitacao_imoveis.length > 0">
-                                           <!--      <span v-for="(solicitacao) in item.solicitacao_imoveis"
+                                                <!--      <span v-for="(solicitacao) in item.solicitacao_imoveis"
                                                     :key="solicitacao.id">
                                                     <span
                                                     
@@ -195,30 +195,66 @@
                                                         </v-chip>
                                                     </span>
                                                 </span> -->
-                                                <span v-for="(solicitar_id) in id_imoveis_solicitados" :key="solicitar_id.id">
-                                                   
-                                                    <v-chip  
-                                                    v-if="solicitar_id.imoveis_id == item.id && solicitar_id.user_marca_visita == user.id "
-                                                        :color="getcor(solicitar_id.estado_imoveis_id)" outlined title="estado do imóvel" class="white--text">
-                                                        <span v-if="solicitar_id.estado_imoveis_id == 8"
+                                                <span v-for="(solicitar_ids) in solicitado_distinct"
+                                                    :key="solicitar_ids.id">
+                                                    <span v-if="solicitar_ids.imoveis_id == item.id">
+                                                        <v-chip v-for="(solicitar_id) in id_imoveis_solicitados"
+                                                            :key="solicitar_id.id"
+                                                            v-if="solicitar_id.imoveis_id == item.id && solicitar_id.user_marca_visita == user.id"
+                                                            :color="getcor(solicitar_id.estado_imoveis_id)" outlined
+                                                            title="estado do imóvel" class="white--text">
+                                                            <span v-if="solicitar_id.estado_imoveis_id == 8"
                                                                 class="mdi mdi-archive-remove">Em negociacao</span>
-                                                            <!-- <span v-if="solicitacao.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span> -->
+
                                                             <span v-if="solicitar_id.estado_imoveis_id == 4"
                                                                 class="mdi mdi-archive-eye">Visita pendentes</span>
                                                             <span v-if="solicitar_id.estado_imoveis_id == 5"
                                                                 class="mdi mdi-archive-refresh">{{ 'Visita confirmada'
                                                                 }}</span>
-                                                    </v-chip>
-                                                    <span v-else-if="solicitar_id.imoveis_id == item.id && solicitar_id.user_marca_visita !== user.id">
-                                                <v-chip title="estado do imóvel" class="white--text"
+                                                        </v-chip>
+                                         <!--                <span v-else-if="solicitar_id.imoveis_id !== item.id">
+   <v-chip title="estado do imóvel" class="white--text"
                                                     :color="getcor(item.estado_imoveis_id)">
                                                     <span v-if="item.estado_imoveis_id == 1"
                                                         class="mdi mdi-archive-eye"></span>
                                                     {{ item.estado_imoveis.designacao }}
                                                 </v-chip>
-                                            </span>
+                                                        </span> -->
+
+                                                        <!--      <span v-for="(solicitacao) in item.solicitacao_imoveis"
+                                                    :key="solicitacao.id">
+                                                    <span
+                                                    
+                                                        v-if="solicitacao.user_marca_visita == user.id && solicitacao.imoveis_id == item.id">
+                                                        <v-chip outlined title="estado do imóvel" class="white--text"
+                                                            :color="getcor(solicitacao.estado_imoveis_id)"
+                                                            v-if="user.id == solicitacao.user_marca_visita">
+                                                            <span v-if="solicitacao.estado_imoveis_id == 8"
+                                                                class="mdi mdi-archive-remove">Em negociacao</span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 3" class="mdi mdi-archive-cog "></span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 4"
+                                                                class="mdi mdi-archive-eye">Visita pendentes</span>
+                                                            <span v-if="solicitacao.estado_imoveis_id == 5"
+                                                                class="mdi mdi-archive-refresh">{{ 'Visita confirmada'
+                                                                }}</span>
+
+                                                        </v-chip>
+                                                    </span>
+                                                    <span v-else-if="!solicitacao.user_marca_visita==user.id"
+                                                    >
+                                                    <v-chip title="estado do imóvel" class="white--text"
+                                                    :color="getcor(item.estado_imoveis_id)">
+                                                    <span v-if="item.estado_imoveis_id == 1"
+                                                        class="mdi mdi-archive-eye"></span>
+                                                    {{ item.estado_imoveis.designacao }}
+                                                </v-chip>
                                                 </span>
-                                             
+                                                </span> -->
+                                                    </span>
+
+
+                                                </span>
+
                                             </span>
                                             <span v-else>
                                                 <v-chip title="estado do imóvel" class="white--text"
@@ -441,6 +477,7 @@ export default {
         total_imoveis_proximos: 1,
         provincias: [],
         id_imoveis_solicitados: [],
+        solicitado_distinct: [],
         tipo_imoveis: [],
         imobiliarias: [],
         total_tmoveis: 0,
@@ -561,11 +598,14 @@ export default {
                 .get("/portal/imoveisPaginacao?page=" + page, {
                 })
                 .then((response) => {
-                    // alert(JSON.stringify(response.data.data))
+
                     this.novos_imoveis = response.data.novos_imoveis.data;
                     this.last_page = response.data.novos_imoveis.last_page;
                     this.total_imoveis = response.data.novos_imoveis.total;
                     this.id_imoveis_solicitados = response.data.id_imoveis_solicitados;
+                    this.solicitado_distinct = response.data.solicitado_distinct;
+                    //        alert(JSON.stringify(this.id_imoveis_solicitados))
+                    //alert( this.id_imoveis_solicitados)
                 })
                 .catch((error) => {
                     console.log(error);

@@ -65,7 +65,7 @@
                     Anunciar
                 </v-btn>
                 <v-btn dense v-if="user !== null && user.can['Gerir Anúncios']" @click="anuncios()"
-                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#fff" elevation="0" text>
+                    class="d-none d-sm-flex btn-custom-nm ml-5" color="#fff" elevation="0" text>
                     Anunciar
                 </v-btn>
             </v-toolbar-items>
@@ -81,7 +81,7 @@
                 </v-btn> -->
 
                 <!-- <v-btn v-if="user!==null" text dense class="white--text text-lowercase" href="/perfil"> -->
-                <v-btn v-if="user !== null" text href="/perfil" dense class="d-none d-lg-flex btn-custom-nm ml-5 "
+                <v-btn v-if="user !== null" text href="/perfil" dense class="d-none d-sm-flex btn-custom-nm ml-5 "
                     color="#fff">
                     <v-icon class="mdi mdi-account-reactivate white--text" title="Perfil">
 
@@ -92,7 +92,7 @@
                 <v-btn dense class="d-none d-lg-flex btn-custom-nm ml-5 " color="#fff" href="/sobre-nos" elevation="0" text>
                     Sobre Nós
                 </v-btn>
-                <v-btn class="white--text hidden-xs-only" v-if="user !== null" @click="logout" title="Terminar Sessão" icon>
+                <v-btn class="white--text hidden-xss" v-if="user !== null" @click="logout" title="Terminar Sessão" icon>
                     <v-icon>mdi-export{{ }}</v-icon>
                 </v-btn>
             </v-toolbar-items>
@@ -465,6 +465,7 @@ export default {
         },
         anuncios() {
             if (this.$page.props.auth.user !== null) {
+                
                 if (this.user.pessoa.provincia_id) {
                     this.$inertia.get('/portal/imoveis').then((response) => {
                     // window.location.reload();

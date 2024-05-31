@@ -134,6 +134,12 @@ Route::resource('/imobiliaria',App\Http\Controllers\ImobiliariaController::class
 Route::group(['prefix' => 'clientes', 'middleware'=>'auth'], function () {
 Route::resource('/cliente',App\Http\Controllers\ClienteController::class);
 Route::get('/meu-perfil', [App\Http\Controllers\ClienteController::class, 'perfil'])->name('perfil');
+Route::get('/listar-clientes', [App\Http\Controllers\ClienteController::class, 'index'])->name('perfil');
+Route::post('/pesquisar-clientes', [App\Http\Controllers\ClienteController::class, 'pesquisar_clientes'])->name('pesquisar_clientes');
+Route::get('/listar-proprietarios-colaboradores', [App\Http\Controllers\ClienteController::class, 'listar_proprietarios_colaboradores'])->name('proprietarios_colaboradores');
+Route::post('/pesquisar-proprietarios-colaboradores', [App\Http\Controllers\ClienteController::class, 'pesquisar_proprietarios_colaboradores'])->name('pesquisar_proprietarios_colaboradores');
+Route::get('/emitir-relatorios-clientes', [App\Http\Controllers\ClienteController::class, 'relatorio_clientes'])->name('relatorio_clientes');
+Route::get('/emitir-relatorios-proprietarios-colaboradores', [App\Http\Controllers\ClienteController::class, 'relatorios_proprietarios_colaboradores'])->name('relatorios_proprietarios_colaboradores');
 Route::get('/meus-anuncios', [App\Http\Controllers\ClienteController::class, 'anuncios'])->name('anuncios');
 Route::get('/meus-processo', [App\Http\Controllers\ClienteController::class, 'processos'])->name('processo');
 Route::post('/atualizar-perfil', [App\Http\Controllers\ClienteController::class, 'atualizar_perfil'])->name('atualizar');

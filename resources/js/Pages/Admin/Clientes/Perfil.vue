@@ -50,7 +50,8 @@
                                 Dados Profissionais 
                                 <v-divider></v-divider></v-col>
                             
-                            <v-col :cols="associado==true? 2:6"> <validation-provider v-slot="{ errors }" name="tipousuario" rules="required">
+                            <v-col v-if="pessoa.usuario.tipo_user_id!=5 || pessoa.usuario.tipo_user_id==6 || pessoa.usuario.tipo_user_id==1" :cols="associado==true? 2:6"> 
+                                <validation-provider v-slot="{ errors }" name="tipousuario" rules="required">
                                 <v-select dense v-model="pessoa.usuario.tipo_user_id" outlined  @change="escolherTipoCorretor()" :items="tipoUsuario" :error-messages="errors"
                                        item-value="id" item-text="designacao" label="Tipo de usuário" data-vv-name="Tipo de usuário" required></v-select>
                                 </validation-provider>
@@ -67,7 +68,7 @@
                                 </validation-provider>
                             </v-col>
 
-                            <v-col :cols="associado==true? 4:6"> <validation-provider v-slot="{ errors }" name="placa" rules="required">
+                            <v-col v-if="pessoa.usuario.tipo_user_id==3 || pessoa.usuario.tipo_user_id==4" :cols="associado==true? 4:6"> <validation-provider v-slot="{ errors }" name="placa" rules="required">
                                     <v-select dense v-model="pessoa.zona_actuacao" :items="placa" outlined :error-messages="errors" label="Zona de actuaçao"
                                         required></v-select>
                                 </validation-provider>
@@ -176,9 +177,9 @@ export default {
             this.clear();
         },
         escolherTipoCorretor(){
-if(this.tipo_corrector=='Corrector'){
+if(this.pessoa.usuario.tipo_user_id==5){
     this.associado=true
-    // alert(this.tipo_corrector=='Associado');
+     //alert(this.pessoa.usuario.tipo_user_id=='Associado');
 }else{
 
     this.associado=false         
@@ -196,5 +197,6 @@ if(this.tipo_corrector=='Corrector'){
 }
 </script>
 <style>
+
 /* @import "vuetify/dist/vuetify.min.css"; */
 </style>

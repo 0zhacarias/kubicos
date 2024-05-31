@@ -36,7 +36,67 @@ class ClienteController extends Controller
 
     public function index()
     {
-        //
+        $dados['clientes'] = User::with('tipo_user')->where('tipo_user_id', 2)->get();
+      //  $dados['prorietarios_colaboradores'] = User::with('tipo_user')->whereIn('tipo_user_id', [3,4])->get();
+    //    $dados['colabrador'] = User::with('tipo_user')->where('tipo_user_id', 4)->get();
+        return Inertia::render('Admin/Clientes/ListarClientes', $dados);
+    }
+    public function listar_proprietarios_colaboradores()
+    {
+        $dados['prorietarios_colaboradores'] = User::with('tipo_user')->whereIn('tipo_user_id', [3,4])->get();
+    //    $dados['colabrador'] = User::with('tipo_user')->where('tipo_user_id', 4)->get();
+        return Inertia::render('Admin/Clientes/ProprietarioColaboradores', $dados);
+    }
+    public function pesquisar_clientes(Request $request)
+    {
+        if($request->search =='null'){
+            $dados['clientes'] = User::with('tipo_user')->where('tipo_user_id', 2)->get();
+
+        }else{
+          
+            $dados['clientes'] = User::with('tipo_user')->where('tipo_user_id', 2)
+            ->where('name', 'like','%'.$request->search.'%')->get();
+        }
+        $dados['prorietarios_colaboradores'] = User::with('tipo_user')->whereIn('tipo_user_id', [3,4])->get();
+        return response()->json($dados);
+    //    $dados['colabrador'] = User::with('tipo_user')->where('tipo_user_id', 4)->get();
+       // return Inertia::render('Admin/Clientes/ListarClientes', $dados);
+    }
+    public function pesquisar_proprietarios_colaboradores(Request $request)
+    {
+        if($request->search =='null'){
+            $dados['prorietarios_colaboradores'] = User::with('tipo_user')->whereIn('tipo_user_id', [3,4])->get();
+
+        }else{
+          
+            $dados['prorietarios_colaboradores'] = User::with('tipo_user')->whereIn('tipo_user_id', [3,4])
+            ->where('name', 'like','%'.$request->search.'%')->get();
+        }
+   return response()->json($dados);
+    //    $dados['colabrador'] = User::with('tipo_user')->where('tipo_user_id', 4)->get();
+       // return Inertia::render('Admin/Clientes/ListarClientes', $dados);
+    }
+    public function relatorio_clientes(){
+
+        $clientes=User::with('tipo_user')->where('tipo_user_id', 2)->get();
+        $pdf = PDF::loadView('relatorioPessoaFuncao', [
+            'relatorioPessoaFuncao' => $clientes,
+            'datatime' => date("Y-m-d"),
+            // 'user'=>$user,
+        ]);
+        // dd($pdf );
+        return $pdf->stream('Listas tipo de problemas projecto.pdf');
+    }
+    public function relatorios_proprietarios_colaboradores(){
+
+        $clientes=User::with('tipo_user')->whereIn('tipo_user_id', [3,4])->get();
+        $pdf = PDF::loadView('relatorioPessoaFuncao', [
+            'relatorioPessoaFuncao' => $clientes,
+            'datatime' => date("Y-m-d"),
+            // 'user'=>$user,
+        ]);
+        // dd($pdf );
+        return $pdf->stream('Listas tipo de problemas projecto.pdf');
     }
 
     /**
@@ -104,7 +164,7 @@ class ClienteController extends Controller
         // Remove a parte do prefixo da URL
         $numerousuario = str_replace('244', '', $request->get('numero_telefone'));
         $utilizador = User::find($request->user_id);
-        
+      
         $nomeRoles = $utilizador->getRoleNames()->first();
         $utilizador->removeRole($nomeRoles);
         $rolesanterior = $utilizador->tipo_user_id;
@@ -116,6 +176,7 @@ class ClienteController extends Controller
             'tipo_user_id' => $request->usuario['tipo_user_id'],
 
         ]);
+       // dd($utilizador,$request->usuario['tipo_user_id']);
         $pessoa = Pessoa::find($request->id);
         $pessoa->update([
             'nome' => $request->get('nome'),
@@ -126,19 +187,21 @@ class ClienteController extends Controller
         ]);
         if ($request->usuario['tipo_user_id'] == 1) {
             // $utilizador->revokePermissionTo('');
-            $utilizador->assignRole('Funcionario');
-        } elseif ($request->usuario['tipo_user_id'] == 2) {
+            $utilizador->assignRole('Funcionarios');
+        } else if ($request->usuario['tipo_user_id'] == 2) {
             // $utilizador->revokePermissionTo('');
             $utilizador->assignRole('Clientes');
-        } elseif ($request->usuario['tipo_user_id'] == 3) {
+        } else if ($request->usuario['tipo_user_id'] == 3) {
             // $utilizador->revokePermissionTo('');
             $utilizador->assignRole('Proprietários');
-        } elseif ($request->usuario['tipo_user_id'] == 4) {
+        } else if ($request->usuario['tipo_user_id'] == 4) {
             // $utilizador->revokePermissionTo('');
             $utilizador->assignRole('Colaborador');
-        } elseif ($request->usuario['tipo_user_id'] == 5) {
+        } else if ($request->usuario['tipo_user_id'] == 5) {
             // $utilizador->revokePermissionTo('');
             $utilizador->assignRole('Corretor');
+        }else if ($request->usuario['tipo_user_id'] == 6){
+            $utilizador->assignRole('Administrador');
         }
         //    dd($pessoa,$utilizador);
     }
@@ -149,9 +212,16 @@ class ClienteController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
-        //
+        $cliente=User::find($id);
+        $pessoa=Pessoa::where('user_id',$id)->first();
+        $imoveis=Imoveis::where('cadastrado_por',$id)->get();
+        foreach($imoveis as $imovel){
+            $imovel->delete();
+        }
+      //  $pessoa->delete();
+        $cliente->delete();
     }
     public function permissoes()
     {
@@ -172,7 +242,7 @@ class ClienteController extends Controller
 
 
         if (auth()->user()) {
-            
+
             $userLog = auth()->user()->load('tipo_user');
             $dados['cliente'] = User::where('id', $userLog->id)->first();
             $dados['provincias'] = Provincias::all();
@@ -180,24 +250,24 @@ class ClienteController extends Controller
             $dados['tipologiaImoveis'] = Tipologia::all();
             $dados['tipoImoveigis'] = TipoImoveis::all();
             $dados['meus_imoveis'] = Imoveis::where('cadastrado_por', $userLog->id)
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+                ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
             if ($userLog->tipo_user_id == 1) {
 
                 $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
                     ->get();
             } else {
-               
+
                 $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             }
             return Inertia::render('Admin/Clientes/Cliente', $dados);
         } else {
             $dados['vazio'] = '';
-            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
 
             return Inertia::render('Portal/PortalIndex', $dados);
         }
@@ -215,34 +285,29 @@ class ClienteController extends Controller
 
         if (auth()->user()) {
             $userLog = auth()->user()->load('tipo_user');
-            if ($userLog->tipo_user->id == 1) {
+
+            $dados['meus_imoveis'] = Imoveis::where('cadastrado_por', $userLog->id)
+                ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
+
+            if ($userLog->tipo_user->id == 1 || $userLog->tipo_user->id == 6) {
                 $dados['tipoUsuario'] = TipoUser::all();
+                $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
+                    ->get();
             } else {
-                $dados['tipoUsuario'] = TipoUser::whereNotIn('id', [1])->get();
+                $dados['tipoUsuario'] = TipoUser::whereNotIn('id', [1,5, 6])->get();
+                $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             }
             $dados['pessoa'] = Pessoa::where('user_id', $userLog->id)->with('provincias', 'usuario.tipo_user')->first();
             $dados['cliente'] = User::where('id', $userLog->id)->with('pessoa.provincias', 'tipo_user')->first();
-
-            $dados['meus_imoveis'] = Imoveis::where('cadastrado_por', $userLog->id)
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with
-            ('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
-            if ($userLog->tipo_user_id == 1) {
-
-                $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
-                    ->get();
-            } else {
-                $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            }
             return Inertia::render('Admin/Clientes/Perfil', $dados);
         } else {
             $dados['vazio'] = '';
-            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-
+            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             return Inertia::render('Portal/PortalIndex', $dados);
         }
     }
@@ -255,28 +320,28 @@ class ClienteController extends Controller
             $dados['cliente'] = User::where('id', $userLog->id)->first();
 
             $dados['meus_imoveis'] = Imoveis::where('cadastrado_por', $userLog->id)
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+                ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
-            if ($userLog->tipo_user_id == 1) {
+            if ($userLog->tipo_user_id == 1 || $userLog->tipo_user->id == 6) {
 
-                $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [1,2,3,4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
+                $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [1, 2, 3, 4, 5, 6, 7, 8])
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
                     ->orderBy('created_at', 'desc')
                     ->get();
                 // dd($dados['imoveis_processos']);
             } else {
-                $id_user_marca_visita=SolicitarImoveis::where('user_marca_visita',$userLog->id)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])->select('imoveis_id')->get();
+                $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])->select('imoveis_id')->get();
                 $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)
-                //->whereIn('estado_imoveis_id', [1,2,3,4, 5, 6, 7, 8])
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-              //  dd($dados);
+                    //->whereIn('estado_imoveis_id', [1,2,3,4, 5, 6, 7, 8])
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+                //  dd($dados);
             }
             return Inertia::render('Admin/Clientes/MeusImoveisProcesso', $dados);
         } else {
             $dados['vazio'] = '';
-            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+            $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
 
             return Inertia::render('Portal/PortalIndex', $dados);
         }
@@ -292,24 +357,23 @@ class ClienteController extends Controller
             $dados['tipoImoveis'] = TipoImoveis::all();
             $userLog = auth()->user()->load('tipo_user');
             $dados['cliente'] = User::where('id', $userLog->id)->first();
-            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+            $dados['meus_pagamentos'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
-            if ($userLog->tipo_user_id == 1) {
-               
-                $dados['meus_imoveis'] = Imoveis::    
-                with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis', 'estadoImoveis')
-                ->orderBy('created_at', 'desc')->get();
+            if ($userLog->tipo_user_id == 1  || $userLog->tipo_user->id == 6) {
+
+                $dados['meus_imoveis'] = Imoveis::with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis', 'estadoImoveis')
+                    ->orderBy('created_at', 'desc')->get();
                 $dados['operacoes'] = OperacaoImoveis::all();
                 $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
                     ->get();
             } else {
-                $dados['operacoes'] = OperacaoImoveis::whereIn('id',[2,3])->get();
+                $dados['operacoes'] = OperacaoImoveis::whereIn('id', [2, 3])->get();
                 $dados['meus_imoveis'] = Imoveis::where('cadastrado_por', $userLog->id)
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
                 $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
-                    ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-                    // dd($dados['meus_imoveis']);
+                    ->with('solicitacaoImoveis', 'fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+                // dd($dados['meus_imoveis']);
             }
             return Inertia::render('Admin/Clientes/MeusAnuncios', $dados);
         } else {

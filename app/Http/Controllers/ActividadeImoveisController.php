@@ -375,7 +375,8 @@ class ActividadeImoveisController extends Controller
     {
       $imovel = Imoveis::find($request->imovel_id);
     $actividade=ActividadeImoveis::where('imoveis_id',$request->imovel_id)->select('cadastrado_por')->first();
-   $cliente=Pessoa::where('user_id',$actividade->cadastrado_por)->first();
+    $cliente=Pessoa::where('user_id',$actividade->cadastrado_por)->first();
+   
      $mensagem = "sua marcação foi aceite no horário desejado.";
      $this->emailValidarFuncionario($cliente, $mensagem, $imovel);
        //$this->enviarSms($request->imovel_id, $mensagem);

@@ -1056,8 +1056,9 @@ export default {
 
         letrasRules: [(value) => !!value || "Campos obrigatório."],
         emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido"],
-        CampoRules: [(value) => !!value || "Campos obrigatório.",
-        (value)=>value >-1 || "O campo não deve conter numeros negativos"],
+        CampoRules: [(value) => (value >=0 ) || "Campos obrigatório.",
+        //(value)=>value >=0 || "O campo não deve conter numeros negativos"
+    ],
         telefoneRules: [
             (v) => !!v || "Campo telefone obrigatório.",
             (v) => (v && v.length == 9) || "Tem que ter 9 caracteres",

@@ -2,11 +2,11 @@
   <PortalLayout>
     <v-row>
       <v-col cols="12" sm="4" md="4" lg="3">
-        <template>
-          <v-card class="mx-auto mt-15 ml-15" tile>
+        <template >
+          <v-card  class="mx-auto mt-15 ml-15 d-none d-md-flex card-menu" tile >
             <v-list rounded>
               <!-- <v-subheader>REPORTS</v-subheader> -->
-              <v-container>
+              <v-container >
                 <v-list-item-group v-model="selectedItem" color="primary">
                   <v-list-item  href="/clientes/meu-perfil"  active-class="deep-purple--text">
                     <v-list-item-icon>
@@ -22,6 +22,22 @@
                     </v-list-item-icon>
                     <v-list-item-content>
                       <v-list-item-title> Funcionarios</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item  v-if="user.can['Gerir Clientes']" href="/clientes/listar-clientes"  active-class="deep-purple--text">
+                    <v-list-item-icon>
+                      <v-icon>mdi-account</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title> Clientes</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item  v-if="user.can['Gerir Proprietarios e  Colaboradores']" href="/clientes/listar-proprietarios-colaboradores"  active-class="deep-purple--text">
+                    <v-list-item-icon>
+                      <v-icon>mdi-account</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title> Proprietarios & Colaboradores</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item  v-if="user.can['Gerir Imóbiliaria']" href="/imobiliaria" 
@@ -195,5 +211,44 @@ export default {
 <style>
 .item-selected {
   background-color: #885cda;
+}
+@media(max-width: 768px) {
+    .textotela>h1 {
+
+    }
+
+    .textotela>h2 {
+
+    }
+
+    .textotela>p {
+
+    }
+
+    .tamanhotela {
+        display: none;
+
+    }
+
+    .card-menu {
+
+    }
+}
+
+;
+
+@media(min-width: 769px) and (max-width: 1024px) {
+
+    .imagens {
+    }
+}
+
+;
+
+@media(min-width: 1025px) {
+
+    .imagens {
+
+    }
 }
 </style>

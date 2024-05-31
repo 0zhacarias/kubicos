@@ -64,7 +64,7 @@ class FuncionarioController extends Controller
             $senha=$request->get('telefone');
            // $senha='KBC-'. User::count().date('m-d');
            // $user->assignRole('Administrador');
-           $user->assignRole('Funcionario');
+           $user->assignRole('Funcionarios');
             $pessoas=Pessoa::create([
                 'nome'=>$request->get('name'),
                 'sobre_nome'=>$request->get('name'),
@@ -73,7 +73,6 @@ class FuncionarioController extends Controller
                 'user_id'=>$user->id,
             ]);
             $nome = $user->name;
-        
         $email=$user->email;
             $url = action([ImoveisController::class, 'portal_imovel']);
         // dd($solicitavisita);
