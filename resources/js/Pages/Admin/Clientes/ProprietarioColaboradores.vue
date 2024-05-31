@@ -1,4 +1,4 @@
-<template>
+GIT<template>
     <Cliente>
         <!-- <v-subheader>Meus Anúcios</v-subheader> -->
         <v-container class="w-90 justify-space-around">
@@ -40,7 +40,7 @@
                 <v-col v-for="item in prorietarios_colaboradores" :key="item.id" cols="12" sm="12" md="4" lg="4">
                     <v-hover v-slot="{ hover }">
 
-                        <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"  
+                        <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"
                         :style="'white-space:nowrap; padding:0;max-width: 100%; position:relative;top:10px; ; border-radius: 10px 80px 10px 60px;'">
                             <!-- <v-img height="150" src="/img/pexels-dids-2969915.jpg"></v-img> -->
                             <!-- <v-img height="100" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)" :src="'/storage/' +
@@ -200,7 +200,7 @@ export default {
         },
         pesqueisar(){
             axios
-                
+
                 .post(
                     "/clientes/pesquisar-proprietarios-colaboradores", this.pessoa )
                 .then((response) => {
@@ -237,7 +237,7 @@ export default {
             this.dialogDelete = true;
         },
         deleteItemConfirm() {
-           
+
             this.$inertia.delete(
                 "/clientes/cliente/" + this.pessoa.id,
                 {
@@ -267,7 +267,7 @@ export default {
         editarpessoa() {
             if (this.editedIndex > -1) {
                 axios
-                
+
                     .put(`/pessoa/${this.pessoa.id}`, this.pessoa )
                     .then((response) => {
                         //   this.resposta = response.data
@@ -286,7 +286,7 @@ export default {
                     {
 
                         onFinish: () => {
-                           
+
                             // this.pessoa = Object.assign({}, this.defautpessoa);
                             if (this.$page.props.flash.success != null) {
                                 Vue.toasted.global.defaultSuccess({
@@ -305,7 +305,7 @@ export default {
                         },
 
                     }
-                    
+
                 );
             };
 

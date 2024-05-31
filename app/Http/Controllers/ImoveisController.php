@@ -33,16 +33,16 @@ class ImoveisController extends Controller
 
     public function portal_imovel()
     {
-        // $userLog=auth()->user()->load('tipo_user');
+        //$userLog=auth()->user()->load('tipo_user');
 
-        // dd($userLog->tipo_user->id);
+       /// dd($userLog->tipo_user->id);
         $dados['provincias'] = Provincias::all();
         $dados['municipios'] = Municipios::all();
         $dados['tipologiaImoveis'] = Tipologia::all();
         $dados['tipoImoveis'] = TipoImoveis::all();
         // $dados['novos_imoveis']=Imoveis::with('fotosImoveis','condicaoImoveis','actividadeImoveis.operacaoImoveis','estadoImoveis')->orderBy('created_at','desc')->get();
         // $dados['mais_proximos']=Imoveis::with('fotosImoveis','condicaoImoveis','actividadeImoveis.operacaoImoveis','estadoImoveis')->get();
-         
+
         return Inertia::render('Portal/PortalIndex', $dados);
         // return Inertia::render('Portal/Carousel');
         // return view();
@@ -68,7 +68,7 @@ class ImoveisController extends Controller
         $dados['tipologiaImoveis'] = Tipologia::all();
         $dados['tipoImoveis'] = TipoImoveis::all();
 
-        return Inertia::render('Portal/ImoveisCriar',$dados);  
+        return Inertia::render('Portal/ImoveisCriar',$dados);
         // return Inertia::render('Portal/Carousel');
         // return view();
     }
